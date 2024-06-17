@@ -1,0 +1,19 @@
+{
+  "name": "nimbus_website",
+  "version": "1.0.0",
+  "description": "A Frontend Projecct Website called Nimbus",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanishJr/Nimbus_Website.git"
+  },
+  "author": "VanishJr (Ivan Logutov)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VanishJr/Nimbus_Website/issues"
+  },
+  "homepage": "https://github.com/VanishJr/Nimbus_Website#readme"
+}
