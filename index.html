@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="logo">
+                <img src="/assets/App logo.png" alt="Nimbus Logo">
+                <p id="logo-text">Nimbus</p>
+            </div>
+            <div class="search">
+                <input type="text" id="city-input" placeholder="Search">
+                <img src="/assets/search.png" alt="Search" id="search-btn">
+            </div>
+        </div>
+        <div class="weather-cards">
+            <div class="weather-card" id="weather-card-1">
+                <div class="card-header">
+                    <p id="city-country"></p>
+                    <div class="btn-near-with-me">
+                        <button id="near-btn">Near with me</button>
+                    </div>
+                </div>
+                <div class="time-now">
+                    <p id="time-now"></p>
+                </div>
+                <div class="weather-now">
+                    <p id="temperature"></p>
+                    <p id="weather-description"></p>
+                </div>
+                <div class="weather-details">
+                    <div class="wind-details">
+                        <img src="/assets/wind.png" alt="Wind Image">
+                        <p id="wind-speed"></p>
+                    </div>
+                    <div class="rainfall-details">
+                        <img src="/assets/drop.png" alt="Rainfall Image">
+                        <p id="humidity"></p>
+                    </div>
+                    <div class="mercury-details">
+                        <img src="/assets/thermometer.png" alt="Mercury Image">
+                        <p id="pressure"></p>
+                    </div>
+                </div>
+                <div class="hourly-forecast">
+                    <div class="forecast-container" id="forecast-container">
+                        <!-- Почасовой прогноз будет вставляться здесь -->
+                    </div>
+                </div>
+            </div>
+            <div class="weather-card">
+                <!-- Вторая карточка -->
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
