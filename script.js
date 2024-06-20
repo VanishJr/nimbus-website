@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchBtn = document.getElementById("search-btn");
     const cityInput = document.getElementById("city-input");
 
+    // Инициализация карты
+    const map = L.map('map').setView([51.505, -0.09], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const precipitationLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>'
+    }).addTo(map);
+
+    let marker;
+
     // Получение данных погоды для Берлина при загрузке страницы
     getWeatherData("Berlin");
 
@@ -21,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log('Weather data:', data); // Отладочный лог
                 updateWeatherCard(data);
                 updateTime(data);
+                updateMap(data.coord.lat, data.coord.lon); // Обновление карты с новыми координатами
             })
             .catch(error => console.error("Error fetching the weather data:", error));
 
@@ -43,13 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (cityCountry && temperature && weatherDescription && windSpeed && humidity && pressure) {
             cityCountry.textContent = `${data.name}, ${data.sys.country}`;
-            temperature.innerHTML = `${data.main.temp}<span style="color: #E7F4FA;">°C</span>`;
+            temperature.innerHTML = `${Math.round(data.main.temp)}<span style="color: #E7F4FA;">°C</span>`;
 
             const description = data.weather[0].description;
             const capitalizedDescription = description.charAt(0).toUpperCase() + description.slice(1);
 
             weatherDescription.innerHTML = `${capitalizedDescription}<br>
-                <span style="color: #AAA4AB;">Feels like </span>
+                <span style="color: #D1C9D2;">Feels like </span>
                 <span style="color: #E7F4FA;">${data.main.feels_like}°C</span>`;
 
             windSpeed.innerHTML = `${data.wind.speed} m/s ${data.wind.deg}`;
@@ -73,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const icon = `http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`;
     
             forecastElement.innerHTML = `
-                <p style="color: #AAA4AB;">${time}</p>
+                <p style="color: #D1C9D2;">${time}</p>
                 <img src="${icon}" alt="Weather Image">
                 <p style="color: #E7F4FA;">${temp}</p>
             `;
@@ -90,5 +103,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const minutes = localTime.getUTCMinutes().toString().padStart(2, '0');
 
         timeNow.textContent = `Now ${hours}:${minutes}`;
+    }
+
+    function updateMap(lat, lon) {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        map.setView([lat, lon], 10);
+        marker = L.marker([lat, lon]).addTo(map);
     }
 });

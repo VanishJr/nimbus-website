@@ -24,7 +24,10 @@
                 <div class="card-header">
                     <p id="city-country"></p>
                     <div class="btn-near-with-me">
-                        <button id="near-btn">Near with me</button>
+                        <button id="near-btn">
+                            <img src="/assets/geo-icon.png" alt="Geolocation Icon" class="geo-icon">
+                            <p id="text-near"> Near with Me</p>
+                        </button>
                     </div>
                 </div>
                 <div class="time-now">
@@ -54,11 +57,13 @@
                     </div>
                 </div>
             </div>
-            <div class="weather-card">
+            <div class="weather-card-2">
                 <!-- Вторая карточка -->
+                <div id="map"></div>
             </div>
         </div>
     </main>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

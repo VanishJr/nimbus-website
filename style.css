@@ -40,7 +40,7 @@ body {
 .search {
     display: flex;
     align-items: center;
-    border: 1px solid #AAA4AB;
+    border: 1px solid #D1C9D2;
     border-radius: 50px;
     padding: 5px 10px;
     background-color: white;
@@ -85,6 +85,23 @@ main {
     margin: 0 20px;
     padding: 20px;
     width: 45%;
+}
+
+.weather-card-2 {
+    position: relative;
+    margin: 0 20px;
+    padding: 20px;
+    height: 39.1vh;
+    width: 45%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px; /* Закругленные углы */
 }
 
 .card-header {
@@ -178,34 +195,36 @@ main {
     margin: 0 10px;
 }
 
-.btn-left, .btn-right {
-    background: #ECEEF2;
-    border: none;
-    border-radius: 50%;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.btn-left:hover, .btn-right:hover {
-    background: #d4d4d4;
-}
-
 .btn-near-with-me button {
-    background: #ECEEF2;
     border: none;
     border-radius: 15px;
     padding: 5px 10px;
     cursor: pointer;
+    display: flex;
+    align-items: center; /* Align items to the center */
+    justify-content: center; /* Center the items */
+    background: rgba(209, 201, 210, 0.4); /* 40% transparency */
+}
+
+#near-btn {
+    margin-top: 2vh;
+}
+
+.geo-icon {
+    margin-right: 5px; /* Add some space between the icon and the text */
+}
+
+#text-near {
+    color: #E7F4FA;
 }
 
 .btn-near-with-me button:hover {
-    background: #d4d4d4;
+    background: rgba(209, 201, 210, 0.4); /* 40% transparency on hover as well */
 }
 
 .time-now {
     text-align: left;
-    color: #AAA4AB; 
-    font-size: 0.78125vц; 
-    margin-top: 10px; 
+    color: #D1C9D2; 
+    font-size: 0.78125v; 
 }
 
