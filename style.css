@@ -69,6 +69,47 @@ main {
     width: 100%;
 }
 
+.future-container {
+    display: flex;
+    justify-content: space-between; /* Распределение виджетов по горизонтали */
+    align-items: center; /* Вертикальное выравнивание по центру */
+    gap: 2vw; /* Расстояние между виджетами */
+}
+
+.next-week-widget, .tomorrow-widget {
+    display: flex;
+    align-items: center;
+    border-radius: 35px; /* Фиксированный радиус */
+    background-color: #F4F4F4;
+    padding: 0.5vw 1vw; /* Относительные отступы */
+    box-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.1); /* Относительная тень */
+    width: 35.5vw; /* Относительная ширина */
+}
+
+.next-week-widget img, .tomorrow-widget img {
+    width: 2.2vw; /* Относительный размер */
+    height: 2.2vw; /* Относительный размер */
+    border-radius: 50%;
+}
+
+.next-week-widget .icon-background, .tomorrow-widget .icon-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.84vw; /* Относительный размер */
+    height: 2.84vw; /* Относительный размер */
+    border-radius: 50%;
+    background-color: #3C80E4;
+    margin-right: 2vw; /* Относительный отступ */
+}
+
+.next-week-widget p, .tomorrow-widget p {
+    margin: 0;
+    font-size: 1.065vw; /* Относительный размер шрифта */
+    color: #333;
+}
+
+
 .weather-cards {
     display: flex;
     justify-content: center;

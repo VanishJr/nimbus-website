@@ -46,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Forecast data:', forecastData); // Отладочный лог
             updateForecast(forecastData);
             renderWeather(forecastData.list);
+            updateNextWeekWidget(forecastData.list); // Обновление виджета на следующую неделю
+            updateTomorrowWidget(forecastData.list); // Обновление виджета на завтра
         } catch (error) {
             console.error("Error fetching the weather data:", error);
         }
@@ -156,5 +158,59 @@ document.addEventListener("DOMContentLoaded", function () {
     
             weatherDays.appendChild(weatherDay);
         });
+    }
+
+    function updateNextWeekWidget(forecastData) {
+        const nextWeekPredictions = document.getElementById("next-week-predictions");
+        const nextWeekIcon = document.getElementById("next-week-icon");
+
+        let totalTemp = 0;
+        let totalWindSpeed = 0;
+        const weatherConditions = {};
+
+        const daysData = forecastData.slice(0, 7); // берем прогноз на 7 дней
+
+        daysData.forEach(day => {
+            totalTemp += day.main.temp;
+            totalWindSpeed += day.wind.speed;
+            const condition = day.weather[0].main;
+            if (weatherConditions[condition]) {
+                weatherConditions[condition]++;
+            } else {
+                weatherConditions[condition] = 1;
+            }
+        });
+
+        const averageTemp = totalTemp / daysData.length;
+        const averageWindSpeed = totalWindSpeed / daysData.length;
+        const mostCommonCondition = Object.keys(weatherConditions).reduce((a, b) => weatherConditions[a] > weatherConditions[b] ? a : b);
+
+        nextWeekPredictions.innerHTML = `
+            Next week: ${mostCommonCondition} • +${Math.round(averageTemp)}°C • wind ${averageWindSpeed.toFixed(1)} m/s
+        `;
+
+        const mostCommonConditionIcon = forecastData.find(day => day.weather[0].main === mostCommonCondition).weather[0].icon;
+        nextWeekIcon.src = `http://openweathermap.org/img/wn/${mostCommonConditionIcon}.png`;
+        nextWeekIcon.alt = mostCommonCondition;
+    }
+
+    function updateTomorrowWidget(forecastData) {
+        const tomorrowPredictions = document.getElementById("tomorrow-predictions");
+        const tomorrowIcon = document.getElementById("tomorrow-icon");
+
+        const tomorrowData = forecastData[1]; // Берем прогноз на завтра (второй элемент массива)
+
+        const tempMin = tomorrowData.main.temp_min;
+        const tempMax = tomorrowData.main.temp_max;
+        const windSpeed = tomorrowData.wind.speed;
+        const condition = tomorrowData.weather[0].main;
+        const conditionIcon = tomorrowData.weather[0].icon;
+
+        tomorrowPredictions.innerHTML = `
+            Tomorrow: ${condition} • +${tempMin}°..+${tempMax}° • wind ${windSpeed} m/s
+        `;
+
+        tomorrowIcon.src = `http://openweathermap.org/img/wn/${conditionIcon}.png`;
+        tomorrowIcon.alt = condition;
     }
 });
