@@ -80,7 +80,7 @@ main {
 .weather-card {
     position: relative;
     background: #000;
-    border-radius: 15px;
+    border-radius: 35px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0 20px;
     padding: 20px;
@@ -101,7 +101,7 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 15px; /* Закругленные углы */
+    border-radius: 35px; /* Закругленные углы */
 }
 
 .card-header {
@@ -220,6 +220,7 @@ main {
 
 .btn-near-with-me button:hover {
     background: rgba(209, 201, 210, 0.4); /* 40% transparency on hover as well */
+    transform: scale(1.05);
 }
 
 .time-now {
@@ -228,3 +229,150 @@ main {
     font-size: 0.78125v; 
 }
 
+
+/* Weather Widget for 7 days */
+.weather-widget {
+    background: #fff;
+    border-radius: 35px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+    text-align: left;
+}
+
+.weather-widget h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.weather-days {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.weather-day {
+    flex: 1;
+    background: #f8f8f8;
+    border-radius: 10px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.weather-day:hover {
+    transform: scale(1.05);
+}
+
+.weather-day.yesterday {
+    color: #ff5a5a;
+    font-weight: bold;
+}
+
+.weather-day h2 {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.weather-day p.date {
+    font-size: 0.8em;
+    color: #888;
+    margin: 0 0 10px 0;
+}
+
+.weather-day img.weather-icon {
+    width: 50px;
+    height: 50px;
+    margin: 10px 0;
+}
+
+.weather-day p.temperature {
+    font-size: 1.2em;
+    color: #222;
+    margin: 10px 0;
+}
+
+.weather-day p.description {
+    font-size: 0.9em;
+    color: #777;
+    margin: 0;
+}
+
+.details {
+    display: flex;
+    background-color: #B7BFCA;
+    
+}
+
+
+/* Container details */
+
+.details {
+    background: #b0b8c1; /* Цвет фона секции */
+    color: #333; /* Основной цвет текста */
+    padding: 2vh; /* Отступы внутри секции */
+    display: flex; /* Используем flexbox для выравнивания элементов */
+    justify-content: space-between; /* Равномерное распределение пространства между элементами */
+    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+    margin-top: 10vh;
+    width: 100%;
+}
+
+.details .column {
+    flex: 2; /* Каждая колонка занимает равное пространство */
+    
+}
+
+.details .column h3 {
+    font-size: 1.2em; /* Размер шрифта заголовков */
+    margin-bottom: 3vh; /* Отступ снизу у заголовков */
+    font-weight: bold; /* Жирное начертание заголовков */
+}
+
+.details .column ul {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем внутренние отступы у списка */
+    margin: 0; /* Убираем внешние отступы у списка */
+}
+
+.details .column ul li {
+    margin-bottom: 3vh; /* Отступ снизу у элементов списка */
+}
+
+.details .column ul li a {
+    color: #333; /* Цвет текста ссылок */
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+}
+
+.details .column ul li a:hover {
+    text-decoration: underline; /* Подчеркивание ссылок при наведении */
+}
+
+.details .column .contact-info {
+    display: flex; /* Используем flexbox для выравнивания элементов */
+    align-items: center; /* Выравниваем элементы по вертикали */
+    gap: 1vh; /* Отступы между элементами */
+}
+
+.details .column .contact-info img {
+    margin-left: 1vh;
+    width: 7vh; /* Ширина изображений */
+    height: auto; /* Автоматическая высота изображений */
+}
+
+.details .column .contact-info p {
+    margin: 0; /* Убираем внешние отступы у параграфов */
+}
+
+#phone {
+    font-weight: bold;
+}

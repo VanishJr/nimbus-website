@@ -23,27 +23,32 @@ document.addEventListener("DOMContentLoaded", function () {
         getWeatherData(city);
     });
 
-    function getWeatherData(city) {
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+    async function getWeatherData(city) {
+        try {
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Weather data:', data); // Отладочный лог
-                updateWeatherCard(data);
-                updateTime(data);
-                updateMap(data.coord.lat, data.coord.lon); // Обновление карты с новыми координатами
-            })
-            .catch(error => console.error("Error fetching the weather data:", error));
+            const weatherResponse = await fetch(apiUrl);
+            if (!weatherResponse.ok) {
+                throw new Error(`HTTP error: ${weatherResponse.status}`);
+            }
+            const weatherData = await weatherResponse.json();
+            console.log('Weather data:', weatherData); // Отладочный лог
+            updateWeatherCard(weatherData);
+            updateTime(weatherData);
+            updateMap(weatherData.coord.lat, weatherData.coord.lon); // Обновление карты с новыми координатами
 
-        fetch(forecastUrl)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Forecast data:', data); // Отладочный лог
-                updateForecast(data);
-            })
-            .catch(error => console.error("Error fetching the forecast data:", error));
+            const forecastResponse = await fetch(forecastUrl);
+            if (!forecastResponse.ok) {
+                throw new Error(`HTTP error: ${forecastResponse.status}`);
+            }
+            const forecastData = await forecastResponse.json();
+            console.log('Forecast data:', forecastData); // Отладочный лог
+            updateForecast(forecastData);
+            renderWeather(forecastData.list);
+        } catch (error) {
+            console.error("Error fetching the weather data:", error);
+        }
     }
 
     function updateWeatherCard(data) {
@@ -111,5 +116,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         map.setView([lat, lon], 10);
         marker = L.marker([lat, lon]).addTo(map);
+    }
+
+    function renderWeather(data) {
+        const weatherDays = document.querySelector('.weather-days');
+        weatherDays.innerHTML = ''; 
+    
+        const dailyData = [];
+        const usedDates = new Set();
+    
+        data.forEach(item => {
+            const date = new Date(item.dt * 1000).toISOString().split('T')[0];
+            if (!usedDates.has(date) && dailyData.length < 7) {
+                usedDates.add(date);
+                dailyData.push(item);
+            }
+        });
+    
+        dailyData.forEach((day, index) => {
+            const weatherDay = document.createElement('div');
+            weatherDay.classList.add('weather-day');
+            if (index === 0) {
+                weatherDay.classList.add('yesterday');
+            }
+    
+            const date = new Date(day.dt * 1000);
+            const options = { weekday: 'short', day: 'numeric', month: 'short' };
+            const formattedDate = date.toLocaleDateString('en-GB', options);
+    
+            const iconUrl = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+    
+            weatherDay.innerHTML = `
+                <h2>${index === 0 ? 'Yesterday' : formattedDate}</h2>
+                <p class="date">${formattedDate}</p>
+                <img class="weather-icon" src="${iconUrl}" alt="${day.weather[0].description}">
+                <p class="temperature">+${Math.round(day.main.temp_max)}° / +${Math.round(day.main.temp_min)}°</p>
+                <p class="description">${day.weather[0].description}</p>
+            `;
+    
+            weatherDays.appendChild(weatherDay);
+        });
     }
 });
