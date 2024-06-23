@@ -1,0 +1,83 @@
+// reset & default css
+@font-face {
+    font-family: logoFont;
+    src: url('/assets/fonts/JosefinSlab-Bold.ttf') format('woff2'),
+        url('/assets/fonts/JosefinSlab-Bold.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background-color: #ECEEF2;
+}
+
+a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+h1 {
+    line-height: 1.2;
+    font-size: 25px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+
+    @media screen and (max-width: 900px) {
+        font-size: 18px;
+    }
+}
+
+
+h2 {
+    line-height: 1.2;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+
+    @media screen and (max-width: 900px) {
+        font-size: 18px;
+    }
+}
+
+h3 {
+    line-height: 1.2;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 500;
+
+    @media screen and (max-width: 900px) {
+        font-size: 16px;
+    }
+}
+
+h4 {
+    line-height: 1.2;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 500;
+
+    @media screen and (max-width: 900px) {
+        font-size: 16px;
+    }
+}
+
+p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+ul {
+    padding-left: 20px;
+}

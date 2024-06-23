@@ -1,134 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Website</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Nimbus - Weather</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
+
 <body>
-    <main>
+    <header>
         <div class="container">
-            <div class="logo">
-                <img src="/assets/App logo.png" alt="Nimbus Logo">
-                <p id="logo-text">Nimbus</p>
-            </div>
-            <div class="search">
-                <input type="text" id="city-input" placeholder="Search">
-                <img src="/assets/search.png" alt="Search" id="search-btn">
+            <div id="navbar">
+                <div class="logo">
+                    <img src="/assets/images/App logo.png" alt="Nimbus Logo">
+                    <p id="logo-text">Nimbus</p>
+                </div>
+                <div class="search">
+                    <input type="text" id="city-input" placeholder="Search">
+                    <img src="/assets/images/search.png" alt="Search" id="search-btn">
+                </div>
             </div>
         </div>
-        <div class="future-container">
-            <div class="tomorrow-widget">
-                <div class="icon-background">
-                    <img id="tomorrow-icon" src="" alt="Weather Icon">
+    </header>
+
+    <main id="main-content">
+        <div class="container">
+            <div class="main-weather-cards">
+                <div class="left">
+                    <div class="weather-card" id="weather-card-1">
+                        <div class="card-header">
+                            <p id="city-country"></p>
+                            <div class="btn-near-with-me">
+                                <button id="near-btn">
+                                    <img src="/assets/images/geo-icon.png" alt="Geolocation Icon" class="geo-icon">
+                                    <p id="text-near"> Near with Me</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="time-now">
+                            <p id="time-now"></p>
+                        </div>
+                        <div class="weather-now">
+                            <p id="temperature"></p>
+                            <p id="weather-description"></p>
+                        </div>
+                        <div class="weather-details">
+                            <div class="wind-details">
+                                <img src="/assets/images/wind.png" alt="Wind Image">
+                                <p id="wind-speed"></p>
+                            </div>
+                            <div class="rainfall-details">
+                                <img src="/assets/images/drop.png" alt="Rainfall Image">
+                                <p id="humidity"></p>
+                            </div>
+                            <div class="mercury-details">
+                                <img src="/assets/images/thermometer.png" alt="Mercury Image">
+                                <p id="pressure"></p>
+                            </div>
+                        </div>
+                        <div class="hourly-forecast">
+                            <div class="forecast-container" id="forecast-container">
+                                <!-- Почасовой прогноз будет вставляться здесь -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p id="tomorrow-predictions"></p>
+
+                <div class="right">
+                    <div class="map-container">
+                        <!-- Вторая карточка -->
+                        <div id="map"></div>
+                    </div>
+                </div>
             </div>
-            <div class="next-week-widget">
-                <div class="icon-background">
-                    <img id="next-week-icon" src="" alt="Weather Icon">
+
+            <div class="weather-widget-container">
+                <div class="weather-widget">
+                    <h1>Prediction for a week</h1>
+                    <div class="weather-days"></div>
                 </div>
-                <p id="next-week-predictions"></p>
+                <div class="weather-widget">
+                    <h1>Bookmarks</h1>
+                    <ul class="bookmarks-menu">
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                        <li><i class="fa-regular fa-bookmark"></i> Berlin, DE +11° <img width="20" height="20" src="https://openweathermap.org/img/wn/01n@2x.png" alt=""> +16°</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="future-container">
+                <div class="tomorrow-widget item">
+                    <div class="icon-background">
+                        <img id="tomorrow-icon" src="" alt="Weather Icon">
+                    </div>
+                    <p id="tomorrow-predictions"></p>
+                </div>
+                <div class="next-week-widget item">
+                    <div class="icon-background">
+                        <img id="next-week-icon" src="" alt="Weather Icon">
+                    </div>
+                    <p id="next-week-predictions"></p>
+                </div>
             </div>
         </div>
-        <div class="weather-cards">
-            <div class="weather-card" id="weather-card-1">
-                <div class="card-header">
-                    <p id="city-country"></p>
-                    <div class="btn-near-with-me">
-                        <button id="near-btn">
-                            <img src="/assets/geo-icon.png" alt="Geolocation Icon" class="geo-icon">
-                            <p id="text-near"> Near with Me</p>
-                        </button>
-                    </div>
-                </div>
-                <div class="time-now">
-                    <p id="time-now"></p>
-                </div>
-                <div class="weather-now">
-                    <p id="temperature"></p>
-                    <p id="weather-description"></p>
-                </div>
-                <div class="weather-details">
-                    <div class="wind-details">
-                        <img src="/assets/wind.png" alt="Wind Image">
-                        <p id="wind-speed"></p>
-                    </div>
-                    <div class="rainfall-details">
-                        <img src="/assets/drop.png" alt="Rainfall Image">
-                        <p id="humidity"></p>
-                    </div>
-                    <div class="mercury-details">
-                        <img src="/assets/thermometer.png" alt="Mercury Image">
-                        <p id="pressure"></p>
-                    </div>
-                </div>
-                <div class="hourly-forecast">
-                    <div class="forecast-container" id="forecast-container">
-                        <!-- Почасовой прогноз будет вставляться здесь -->
-                    </div>
-                </div>
-            </div>
-            <div class="weather-card-2">
-                <!-- Вторая карточка -->
-                <div id="map"></div>
-            </div>
-        </div>
-        <div class="weather-widget">
-            <h1>Prediction for a week</h1>
-            <div class="weather-days"></div>
-        </div>
-        <div class="details">
-            <div class="column">
-                <div class="contact-info">
-                    <img src="assets/App logo.png" alt="Logo">
-                    <p>Deutschland<br></p>
-                    <p id="phone">0800/0 00 00 00</p>
-                </div>
-            </div>
-            <div class="column">
-                <h3>About Nimbus</h3>
-                <ul>
-                    <li><a href="#">Company Information</a></li>
-                    <li><a href="#">Locations worldwide</a></li>
-                    <li><a href="#">Jobs & Career</a></li>
-                    <li><a href="#">News and press</a></li>
-                    <li><a href="#">Newsletter</a></li>
-                </ul>
-            </div>
-            <div class="column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Contact us</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="column">
-                <h3>Information about the website</h3>
-                <ul>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Copyright</a></li>
-                    <li><a href="#">Trademark</a></li>
-                    <li><a href="#">Site map</a></li>
-                    <li><a href="#">Text view</a></li>
-                    <li><a href="#">Cookie settings</a></li>
-                </ul>
-            </div>
-            <div class="column">
-                <h3>Partners</h3>
-                <ul>
-                    <li><a href="#">Advertisement</a></li>
-                </ul>
-            </div>
-            <div class="column">
-                <h3>Mobile Apps</h3>
-                <a href="#"><img src="assets/google-play.png" alt="Google Play"></a>
-                <a href="#"><img src="assets/app-store.png" alt="App Store"></a>
-            </div>
     </main>
+
+
+
+    <!-- footer -->
+    <footer>
+        <div class="container">
+            <div class="col-footer">
+                <div class="contact-info">
+                    <img src="assets/images/App logo.png" alt="Logo">
+
+                    <div class="d-flex" style="gap: 10px;">
+                        <div class="icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <p>Deutschland</p>
+                            <a href="tel:0800/0 00 00 00" class="phone">0800/0 00 00 00</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-footer">
+                <h3 class="footer-title">About Nimbus</h3>
+                <ul class="footer-menu">
+                    <li><a href="#" class="footer-link">Company Information</a></li>
+                    <li><a href="#" class="footer-link">Locations worldwide</a></li>
+                    <li><a href="#" class="footer-link">Jobs & Career</a></li>
+                    <li><a href="#" class="footer-link">News and press</a></li>
+                    <li><a href="#" class="footer-link">Newsletter</a></li>
+                </ul>
+            </div>
+            <div class="col-footer">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-menu">
+                    <li><a href="#" class="footer-link">Contact us</a></li>
+                    <li><a href="#" class="footer-link">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-footer">
+                <h3 class="footer-title">Information about the website</h3>
+                <ul class="footer-menu">
+                    <li><a href="#" class="footer-link">Terms of Use</a></li>
+                    <li><a href="#" class="footer-link">Copyright</a></li>
+                    <li><a href="#" class="footer-link">Trademark</a></li>
+                    <li><a href="#" class="footer-link">Site map</a></li>
+                    <li><a href="#" class="footer-link">Text view</a></li>
+                    <li><a href="#" class="footer-link">Cookie settings</a></li>
+                </ul>
+            </div>
+            <div class="col-footer">
+                <h3 class="footer-title">Partners</h3>
+                <ul class="footer-menu">
+                    <li><a href="#" class="footer-link">Advertisement</a></li>
+                </ul>
+            </div>
+            <div class="col-footer">
+                <h3 class="footer-title">Mobile Apps</h3>
+                <div class="stores">
+                    <a href="" target="_blank"><img src="assets/images/google-play.png" alt="Google Play"></a>
+                    <a href="" target="_blank"><img src="assets/images/app-store.png" alt="App Store"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+    <script src="/assets/js/script.js"></script>
 </body>
+
 </html>
