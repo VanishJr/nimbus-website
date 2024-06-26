@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentForecastData = null; // Переменная для хранения текущих данных прогноза
 
     // Инициализация карты
-    const map = L.map('map');
+    const map = L.map('map')
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             navigator.geolocation.getCurrentPosition(position => {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                getWeatherDataByCoords(lat, lon);
+                getCityNameByCoords(lat, lon);
             }, error => {
                 console.error("Error getting geolocation: ", error);
             });
@@ -55,12 +55,27 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Geolocation is not supported by this browser.");
         }
     });
-    
+
+    async function getCityNameByCoords(lat, lon) {
+        try {
+            const reverseGeocodeUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+            const response = await fetch(reverseGeocodeUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            const data = await response.json();
+            const city = data[0].name;
+            getWeatherData(city);
+        } catch (error) {
+            console.error("Error getting city name by coordinates: ", error);
+        }
+    }
+
     async function getWeatherData(city) {
         try {
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
             const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
-    
+
             const weatherResponse = await fetch(apiUrl);
             if (!weatherResponse.ok) {
                 throw new Error(`HTTP error: ${weatherResponse.status}`);
@@ -71,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             updateWeatherCard(weatherData);
             updateTime(weatherData);
             updateMap(weatherData.coord.lat, weatherData.coord.lon); // Обновление карты с новыми координатами
-    
+
             const forecastResponse = await fetch(forecastUrl);
             if (!forecastResponse.ok) {
                 throw new Error(`HTTP error: ${forecastResponse.status}`);
@@ -87,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
             console.error("Error fetching the weather data:", error);
         }
-    }    
+    }
 
     function updateWeatherCard(data) {
         const cityCountry = document.getElementById("city-country");
