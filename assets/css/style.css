@@ -313,12 +313,34 @@ header #navbar .search img {
   /* 40% transparency on hover as well */
   transform: scale(1.05);
 }
+#main-content .main-weather-cards .left .btn-near-with-me button:active {
+  transform: translateY(4px);
+}
 #main-content .main-weather-cards .left .time-now {
   text-align: left;
   color: #D1C9D2;
   font-size: 0.78125v;
 }
-
+#main-content .main-weather-cards .left #unit-toggle-btn {
+  background: rgba(209, 201, 210, 0.4);
+  border: none; 
+  color: white; 
+  padding: 5px 10px; 
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block; 
+  font-size: 16px; 
+  margin: 10px 0; 
+  cursor: pointer; 
+  border-radius: 5px; 
+  transition: background-color 0.3s ease;
+}
+#main-content .main-weather-cards .left #unit-toggle-btn:hover {
+  transform: scale(1.05);
+}
+#main-content .main-weather-cards .left #unit-toggle-btn:active {
+  transform: translateY(4px);
+}
 #main-content .main-weather-cards .right {
   width: 50%;
 }
