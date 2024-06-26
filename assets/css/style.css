@@ -205,6 +205,13 @@ header #navbar .search img {
   font-size: 1vw;
   font-weight: bold;
 }
+@media screen and (max-width: 900px) {
+  #main-content .main-weather-cards .left #city-country {
+    color: #E7F4FA;
+    font-size: 4vw;
+    font-weight: bold;
+  }
+}
 #main-content .main-weather-cards .left #temperature {
   color: #E7F4FA;
   font-size: 5vh;
@@ -311,6 +318,7 @@ header #navbar .search img {
   color: #D1C9D2;
   font-size: 0.78125v;
 }
+
 #main-content .main-weather-cards .right {
   width: 50%;
 }
