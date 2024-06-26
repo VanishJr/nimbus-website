@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nimbus - Weather</title>
+    <title>About Us</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
@@ -16,9 +16,8 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/about-us-style.css">
 </head>
-
 <body>
     <header>
         <div class="container">
@@ -29,95 +28,45 @@
                         <p id="logo-text">Nimbus</p>
                     </div>
                 </a>
-                    <div class="search">
-                        <input type="text" id="city-input" placeholder="Search">
-                        <img src="/assets/images/search.png" alt="Search" id="search-btn">
-                    </div>    
             </div>
         </div>
     </header>
 
     <main id="main-content">
-        <div class="container">
-            <div class="main-weather-cards">
-                <div class="left">
-                    <div class="weather-card" id="weather-card-1">
-                        <div class="card-header">
-                            <p id="city-country"></p>
-                            <div class="btn-near-with-me">
-                                <button id="near-btn">
-                                    <img src="/assets/images/geo-icon.png" alt="Geolocation Icon" class="geo-icon">
-                                    <p id="text-near"> Near with Me</p>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="time-now">
-                            <p id="time-now"></p>
-                        </div>
-                        <div class="weather-now">
-                            <p id="temperature"></p>
-                            <p id="weather-description"></p>
-                        </div>
-                        <div class="weather-details">
-                            <div class="wind-details">
-                                <img src="/assets/images/wind.png" alt="Wind Image">
-                                <p id="wind-speed"></p>
-                            </div>
-                            <div class="rainfall-details">
-                                <img src="/assets/images/drop.png" alt="Rainfall Image">
-                                <p id="humidity"></p>
-                            </div>
-                            <div class="mercury-details">
-                                <img src="/assets/images/thermometer.png" alt="Mercury Image">
-                                <p id="pressure"></p>
-                            </div>
-                        </div>
-                        <div class="hourly-forecast">
-                            <div class="forecast-container" id="forecast-container">
-                                <!-- Почасовой прогноз будет вставляться здесь -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="right">
-                    <div class="map-container">
-                        <!-- Вторая карточка -->
-                        <div id="map"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="weather-widget-container">
-                <div class="weather-widget">
-                    <h1>Prediction for a week</h1>
-                    <div class="weather-days" id="week-weather"></div>
-                </div>
-                <div class="weather-widget">
-                    <h1>Prediction for a month</h1>
-                    <div class="weather-days" id="month-weather"></div>
-                </div>
-            </div>
-
-
-            <div class="future-container">
-                <div class="tomorrow-widget item">
-                    <div class="icon-background">
-                        <img id="tomorrow-icon" src="" alt="Weather Icon">
-                    </div>
-                    <p id="tomorrow-predictions"></p>
-                </div>
-                <div class="next-week-widget item">
-                    <div class="icon-background">
-                        <img id="next-week-icon" src="" alt="Weather Icon">
-                    </div>
-                    <p id="next-week-predictions"></p>
-                </div>
+        <div class="container-two">
+            <div class="student-list">
+                <h1>About Us</h1>
+                <h2>Students:</h2>
+                <ul>
+                    <li>
+                        Ivan Logutov
+                        <span>ivan.logutov@ue-germany.de</span>
+                    </li>
+                    <li>
+                        Artur Yurchenko
+                        <span>artur.yurchenko@ue-germany.de</span>
+                    </li>
+                    <li>
+                        Oleksandr Yakushevych
+                        <span>oleksandr.yakushevych@ue-germany.de</span>
+                    </li>
+                    <li>
+                        Vitaliy Danyuk
+                        <span>vitaliy.danyuk@ue-germany.de</span>
+                    </li>
+                    <li>
+                        Alvaro Calderon
+                        <span>alvaro.calderon@ue-germany.de</span>
+                    </li>
+                    <li>
+                        Omar Ayman Mohamed Abdelhady Khamis
+                        <span>omaraymanmohamedabdelhady.khamis@ue-germany.de</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>
-
-
+    
 
     <!-- footer -->
     <footer>
@@ -180,9 +129,5 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="/assets/js/script.js"></script>
 </body>
-
 </html>

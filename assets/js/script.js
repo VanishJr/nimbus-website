@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Forecast data:', forecastData); // Отладочный лог
             updateForecast(forecastData);
             renderWeather(forecastData.list);
+            renderMonthlyWeather(forecastData.list); // Добавляем вызов функции для месячного прогноза
             updateNextWeekWidget(forecastData.list); // Обновление виджета на следующую неделю
             updateTomorrowWidget(forecastData.list); // Обновление виджета на завтра
         } catch (error) {
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderWeather(data) {
-        const weatherDays = document.querySelector('.weather-days');
+        const weatherDays = document.querySelector('#week-weather');
         weatherDays.innerHTML = ''; 
     
         const dailyData = [];
@@ -138,9 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
         dailyData.forEach((day, index) => {
             const weatherDay = document.createElement('div');
             weatherDay.classList.add('weather-day');
-            if (index === 0) {
-                weatherDay.classList.add('yesterday');
-            }
     
             const date = new Date(day.dt * 1000);
             const options = { weekday: 'short', day: 'numeric', month: 'short' };
@@ -149,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const iconUrl = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
     
             weatherDay.innerHTML = `
-                <h2>${index === 0 ? 'Yesterday' : formattedDate}</h2>
+                <h2>${formattedDate}</h2>
                 <p class="date">${formattedDate}</p>
                 <img class="weather-icon" src="${iconUrl}" alt="${day.weather[0].description}">
                 <p class="temperature">+${Math.round(day.main.temp_max)}° / +${Math.round(day.main.temp_min)}°</p>
@@ -160,6 +158,83 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function renderMonthlyWeather(data) {
+        const weatherDays = document.querySelector('#month-weather');
+        weatherDays.innerHTML = ''; 
+    
+        const dailyData = [];
+        const usedDates = new Set();
+        
+        // Собираем уникальные дни из данных
+        data.forEach(item => {
+            const date = new Date(item.dt * 1000).toISOString().split('T')[0];
+            if (!usedDates.has(date)) {
+                usedDates.add(date);
+                dailyData.push(item);
+            }
+        });
+    
+        const today = new Date();
+        const oneMonthLater = new Date(today);
+        oneMonthLater.setDate(today.getDate() + 30);
+    
+        // Фильтруем данные на месяц вперед
+        const filteredData = dailyData.filter(item => {
+            const itemDate = new Date(item.dt * 1000);
+            return itemDate >= today && itemDate <= oneMonthLater;
+        });
+    
+        const weeklyData = [];
+        for (let i = 0; i < filteredData.length; i += 7) {
+            const chunk = filteredData.slice(i, i + 7);
+            weeklyData.push(chunk);
+        }
+    
+        weeklyData.forEach((week, index) => {
+            if (week.length === 0) return;
+    
+            const weatherDay = document.createElement('div');
+            weatherDay.classList.add('weather-day');
+        
+            const startDate = new Date(week[0].dt * 1000);
+            const endDate = new Date(week[Math.min(week.length - 1, 6)].dt * 1000); // Handle the last partial week correctly
+            const options = { day: 'numeric', month: 'short' };
+            const formattedStartDate = startDate.toLocaleDateString('en-GB', options);
+            const formattedEndDate = endDate.toLocaleDateString('en-GB', options);
+        
+            let totalTempMax = 0;
+            let totalTempMin = 0;
+            let descriptionCounts = {};
+        
+            week.forEach(day => {
+                totalTempMax += day.main.temp_max;
+                totalTempMin += day.main.temp_min;
+                const description = day.weather[0].description;
+                if (!descriptionCounts[description]) {
+                    descriptionCounts[description] = 0;
+                }
+                descriptionCounts[description]++;
+            });
+        
+            const avgTempMax = totalTempMax / week.length;
+            const avgTempMin = totalTempMin / week.length;
+            const mostCommonDescription = Object.keys(descriptionCounts).reduce((a, b) => descriptionCounts[a] > descriptionCounts[b] ? a : b);
+        
+            const iconUrl = `http://openweathermap.org/img/wn/${week[Math.floor(week.length / 2)].weather[0].icon}@2x.png`; // Use the middle day's icon as a representative
+        
+            weatherDay.innerHTML = `
+                <h2>${formattedStartDate} - ${formattedEndDate}</h2>
+                <p class="date">${formattedStartDate} - ${formattedEndDate}</p>
+                <img class="weather-icon" src="${iconUrl}" alt="${mostCommonDescription}">
+                <p class="temperature">+${Math.round(avgTempMax)}° / +${Math.round(avgTempMin)}°</p>
+                <p class="description">${mostCommonDescription}</p>
+            `;
+        
+            weatherDays.appendChild(weatherDay);
+        });
+    }
+    
+    
     function updateNextWeekWidget(forecastData) {
         const nextWeekPredictions = document.getElementById("next-week-predictions");
         const nextWeekIcon = document.getElementById("next-week-icon");

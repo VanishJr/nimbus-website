@@ -140,6 +140,13 @@ header #navbar .search img {
   width: 20px;
   cursor: pointer;
 }
+.logo-link {
+  text-decoration: none; /* Убирает подчеркивание */
+  color: inherit; /* Наследует цвет родителя */
+}
+.logo-link:hover {
+  text-decoration:none;
+}
 
 #main-content {
   min-height: 100vh;
