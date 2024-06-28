@@ -19,15 +19,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }).addTo(map);
 
     let marker;
+    let current_loc = "Berlin";
+    
+    // gets the geolocation without delaying loading the page
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            current_loc =  getCityNameByCoords(lat, lon);
+        }, error => {
+        });
+    }
 
-    // Получение данных погоды для Берлина при загрузке страницы
-    getWeatherData("Berlin");
+    // sets the default location as the geolocation
+    getWeatherData(current_loc);
 
     searchBtn.addEventListener("click", function () {
         const city = cityInput.value;
         getWeatherData(city);
     });
 
+    // listens for the Enter key for search
+    cityInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            const city = cityInput.value;
+            getWeatherData(city);
+        }
+    });
+    
     unitToggleBtn.addEventListener("click", function () {
         currentUnit = currentUnit === "metric" ? "imperial" : "metric";
         if (currentWeatherData) {
