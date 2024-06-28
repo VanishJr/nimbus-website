@@ -195,6 +195,13 @@ header #navbar .search img {
     background-color: #0056b3;
 }
 
+#message { /* to limit resizing */
+  min-width: 560px;
+  min-height: 42px;
+  max-width: 560px;
+  max-height: 200px;
+  resize: both;
+}
 
 footer {
   width: 100%;
