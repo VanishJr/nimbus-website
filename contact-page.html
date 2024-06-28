@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Сontact Page</title>
-    
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    
-        <link rel="stylesheet" href="assets/css/contact-page-style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Page</title>
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS for map display -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Custom CSS file for contact page -->
+    <link rel="stylesheet" href="assets/css/contact-page-style.css">
+</head>
 
 <body>
+    <!-- Header section -->
     <header>
         <div class="container">
             <div id="navbar">
+                <!-- Logo and link to home page -->
                 <a href="index.html" class="logo-link">
                     <div class="logo">
                         <img src="assets/images/App logo.png" alt="Nimbus Logo">
@@ -32,56 +37,62 @@
         </div>
     </header>
 
+    <!-- Main content section -->
     <main id="main-content">
         <div class="contact-form">
+            <!-- Contact form with POST method to FormSubmit service -->
             <form id="contact-form" action="https://formsubmit.co/ilogutov04@gmail.com" method="POST">
+                <!-- Name input field -->
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
-    
+
+                <!-- Email input field -->
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
-    
+
+                <!-- Message textarea field -->
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
-    
-                <!-- Поля для обработки формы и автоматического ответа -->
+
+                <!-- Hidden fields for form processing -->
                 <input type="hidden" name="_cc" value="foreverivan2004@gmail.com">
                 <input type="hidden" name="_autoresponse" value="We received your message, and we will reply to you as soon as possible!">
-    
+
+                <!-- Submit button -->
                 <button type="submit">Send Message</button>
             </form>
+
+            <!-- Confirmation message displayed after form submission -->
             <p id="form-message" style="display:none; color: green; margin-top: 20px;">Thank you for your message.</p>
         </div>
     </main>
-    
-    
 
-    <!-- footer -->
+    <!-- Footer section -->
     <footer>
         <div class="container">
+            <!-- Footer columns with various links and information -->
             <div class="col-footer">
                 <div class="contact-info">
                     <img src="assets/images/App logo.png" alt="Logo">
 
+                    <!-- Contact information with phone number -->
                     <div class="d-flex" style="gap: 10px;">
                         <div class="icon">
                             <i class="fa-solid fa-phone"></i>
                         </div>
                         <div>
                             <p>Deutschland</p>
-                            <a href="tel:0800/0 00 00 00" class="phone">0800/0 00 00 00</a>
+                            <a href="tel:971/56 643 8731" class="phone">+971 56 643 8731</a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Additional footer columns with links -->
             <div class="col-footer">
                 <h3 class="footer-title">About Nimbus</h3>
                 <ul class="footer-menu">
                     <li><a href="about-us.html" class="footer-link">Company Information</a></li>
-                    <li><a href="#" class="footer-link">Locations worldwide</a></li>
-                    <li><a href="#" class="footer-link">Jobs & Career</a></li>
-                    <li><a href="#" class="footer-link">News and press</a></li>
-                    <li><a href="#" class="footer-link">Newsletter</a></li>
                 </ul>
             </div>
             <div class="col-footer">
@@ -91,32 +102,10 @@
                     <li><a href="#" class="footer-link">FAQ</a></li>
                 </ul>
             </div>
-            <div class="col-footer">
-                <h3 class="footer-title">Information about the website</h3>
-                <ul class="footer-menu">
-                    <li><a href="#" class="footer-link">Terms of Use</a></li>
-                    <li><a href="#" class="footer-link">Copyright</a></li>
-                    <li><a href="#" class="footer-link">Trademark</a></li>
-                    <li><a href="#" class="footer-link">Site map</a></li>
-                    <li><a href="#" class="footer-link">Text view</a></li>
-                    <li><a href="#" class="footer-link">Cookie settings</a></li>
-                </ul>
-            </div>
-            <div class="col-footer">
-                <h3 class="footer-title">Partners</h3>
-                <ul class="footer-menu">
-                    <li><a href="#" class="footer-link">Advertisement</a></li>
-                </ul>
-            </div>
-            <div class="col-footer">
-                <h3 class="footer-title">Mobile Apps</h3>
-                <div class="stores">
-                    <a href="" target="_blank"><img src="assets/images/google-play.png" alt="Google Play"></a>
-                    <a href="" target="_blank"><img src="assets/images/app-store.png" alt="App Store"></a>
-                </div>
-            </div>
         </div>
     </footer>
+
+    <!-- External JavaScript file for form handling -->
     <script src="assets/js/form-handler.js"></script>
 </body>
 </html>
