@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const apiKey = "8c4d1e7594b4cd1ad645f26a2da4d1b1"; // Замените на ваш API ключ OpenWeather
+    const apiKey = "8c4d1e7594b4cd1ad645f26a2da4d1b1";
     const searchBtn = document.getElementById("search-btn");
     const cityInput = document.getElementById("city-input");
-    const unitToggleBtn = document.getElementById("unit-toggle-btn"); // Кнопка переключения
-    const nearBtn = document.getElementById("near-btn"); // Кнопка "Near with Me"
-    let currentUnit = "metric"; // Текущая единица измерения (метрическая система)
-    let currentWeatherData = null; // Переменная для хранения текущих данных погоды
-    let currentForecastData = null; // Переменная для хранения текущих данных прогноза
+    const unitToggleBtn = document.getElementById("unit-toggle-btn"); // Toggle button for unit conversion
+    const nearBtn = document.getElementById("near-btn"); // Button for "Near with Me" feature
+    let currentUnit = "metric"; // Current measurement unit (metric system)
+    let currentWeatherData = null; // Variable to store current weather data
+    let currentForecastData = null; // Variable to store current forecast data
 
-    // Инициализация карты
+    // Initializing the map
     const map = L.map('map').setView([51.505, -0.09], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -21,25 +21,27 @@ document.addEventListener("DOMContentLoaded", function () {
     let marker;
     let current_loc = "Berlin";
     
-    // gets the geolocation without delaying loading the page
+    // Gets the geolocation without delaying the loading of the page
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             current_loc =  getCityNameByCoords(lat, lon);
         }, error => {
+            console.error("Error getting geolocation: ", error);
         });
     }
 
-    // sets the default location as the geolocation
+    // Sets the default location as the geolocation
     getWeatherData(current_loc);
 
+    // Event listener for search button click
     searchBtn.addEventListener("click", function () {
         const city = cityInput.value;
         getWeatherData(city);
     });
 
-    // listens for the Enter key for search
+    // Event listener for Enter key in the search input field
     cityInput.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             const city = cityInput.value;
@@ -47,20 +49,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
+    // Event listener for unit toggle button
     unitToggleBtn.addEventListener("click", function () {
         currentUnit = currentUnit === "metric" ? "imperial" : "metric";
         if (currentWeatherData) {
-            updateWeatherCard(currentWeatherData); // Обновляем отображение температуры
+            updateWeatherCard(currentWeatherData); // Update temperature display
         }
         if (currentForecastData) {
-            updateForecast(currentForecastData.list); // Обновляем прогноз на ближайшие часы
-            renderWeather(currentForecastData.list); // Обновляем недельный прогноз
-            renderMonthlyWeather(currentForecastData.list); // Обновляем месячный прогноз
-            updateNextWeekWidget(currentForecastData.list); // Обновляем виджет на следующую неделю
-            updateTomorrowWidget(currentForecastData.list); // Обновляем виджет на завтра
+            updateForecast(currentForecastData.list); // Update hourly forecast
+            renderWeather(currentForecastData.list); // Update weekly forecast
+            renderMonthlyWeather(currentForecastData.list); // Update monthly forecast
+            updateNextWeekWidget(currentForecastData.list); // Update next week widget
+            updateTomorrowWidget(currentForecastData.list); // Update tomorrow widget
         }
     });
 
+    // Event listener for "Near with Me" button
     nearBtn.addEventListener("click", function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -75,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Function to get city name by coordinates
     async function getCityNameByCoords(lat, lon) {
         try {
             const reverseGeocodeUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
@@ -90,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Function to get weather data by city name
     async function getWeatherData(city) {
         try {
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
@@ -100,29 +106,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error(`HTTP error: ${weatherResponse.status}`);
             }
             const weatherData = await weatherResponse.json();
-            console.log('Weather data:', weatherData); // Отладочный лог
-            currentWeatherData = weatherData; // Сохраняем текущие данные погоды
+            console.log('Weather data:', weatherData); // Debug log
+            currentWeatherData = weatherData; // Save current weather data
             updateWeatherCard(weatherData);
             updateTime(weatherData);
-            updateMap(weatherData.coord.lat, weatherData.coord.lon); // Обновление карты с новыми координатами
+            updateMap(weatherData.coord.lat, weatherData.coord.lon); // Update map with new coordinates
 
             const forecastResponse = await fetch(forecastUrl);
             if (!forecastResponse.ok) {
                 throw new Error(`HTTP error: ${forecastResponse.status}`);
             }
             const forecastData = await forecastResponse.json();
-            console.log('Forecast data:', forecastData); // Отладочный лог
-            currentForecastData = forecastData; // Сохраняем текущие данные прогноза
+            console.log('Forecast data:', forecastData); // Debug log
+            currentForecastData = forecastData; // Save current forecast data
             updateForecast(forecastData.list);
             renderWeather(forecastData.list);
-            renderMonthlyWeather(forecastData.list); // Добавляем вызов функции для месячного прогноза
-            updateNextWeekWidget(forecastData.list); // Обновление виджета на следующую неделю
-            updateTomorrowWidget(forecastData.list); // Обновление виджета на завтра
+            renderMonthlyWeather(forecastData.list); // Call function to render monthly forecast
+            updateNextWeekWidget(forecastData.list); // Update next week widget
+            updateTomorrowWidget(forecastData.list); // Update tomorrow widget
         } catch (error) {
             console.error("Error fetching the weather data:", error);
         }
     }
 
+    // Function to update the weather card
     function updateWeatherCard(data) {
         const cityCountry = document.getElementById("city-country");
         const temperature = document.getElementById("temperature");
@@ -145,19 +152,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 <span style="color: #D1C9D2;">Feels like </span>
                 <span style="color: #E7F4FA;">${feelsLike}${tempUnit}</span>`;
 
-            windSpeed.innerHTML = `${data.wind.speed} m/s ${data.wind.deg}`; // Без изменений
-            humidity.innerHTML = `${data.main.humidity}%`; // Без изменений
-            pressure.innerHTML = `${data.main.pressure} mm Hg`; // Без изменений
+            windSpeed.innerHTML = `${data.wind.speed} m/s ${data.wind.deg}`; // No changes
+            humidity.innerHTML = `${data.main.humidity}%`; // No changes
+            pressure.innerHTML = `${data.main.pressure} mm Hg`; // No changes
         } else {
             console.error("One or more elements are missing in the DOM");
         }
     }
 
+    // Function to update the hourly forecast
     function updateForecast(data) {
         const forecastContainer = document.getElementById("forecast-container");
-        forecastContainer.innerHTML = ""; // Очищаем предыдущие данные
+        forecastContainer.innerHTML = ""; // Clear previous data
     
-        data.slice(0, 9).forEach(hour => { // берем 9 часов для прогноза
+        data.slice(0, 9).forEach(hour => { // Take 9 hours for the forecast
             const forecastElement = document.createElement("div");
             forecastElement.classList.add("one-hour");
     
@@ -176,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
-
+    // Function to update the current time
     function updateTime(data) {
         const timeNow = document.getElementById("time-now");
         const timezoneOffset = data.timezone;
@@ -187,6 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
         timeNow.textContent = `Now ${hours}:${minutes}`;
     }
 
+    // Function to update the map with new coordinates
     function updateMap(lat, lon) {
         if (marker) {
             map.removeLayer(marker);
@@ -195,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
         marker = L.marker([lat, lon]).addTo(map);
     }
 
+    // Function to render the weekly weather forecast
     function renderWeather(data) {
         const weatherDays = document.querySelector('#week-weather');
         weatherDays.innerHTML = ''; 
@@ -235,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
+    // Function to render the monthly weather forecast
     function renderMonthlyWeather(data) {
         const weatherDays = document.querySelector('#month-weather');
         weatherDays.innerHTML = ''; 
@@ -243,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const dailyData = [];
         const usedDates = new Set();
         
-        // Собираем уникальные дни из данных
+        // Collect unique days from the data
         data.forEach(item => {
             const date = new Date(item.dt * 1000).toISOString().split('T')[0];
             if (!usedDates.has(date)) {
@@ -256,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const oneMonthLater = new Date(today);
         oneMonthLater.setDate(today.getDate() + 30);
     
-        // Фильтруем данные на месяц вперед
+        // Filter data for the next month
         const filteredData = dailyData.filter(item => {
             const itemDate = new Date(item.dt * 1000);
             return itemDate >= today && itemDate <= oneMonthLater;
@@ -298,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const avgTempMin = totalTempMin / week.length;
             const tempMax = currentUnit === "metric" ? Math.round(avgTempMax) : Math.round((avgTempMax * 9/5) + 32);
             const tempMin = currentUnit === "metric" ? Math.round(avgTempMin) : Math.round((avgTempMin * 9/5) + 32);
-            const tempUnit = currentUnit === "metric" ? "°C" : "°F"; // Добавляем определение единицы измерения
+            const tempUnit = currentUnit === "metric" ? "°C" : "°F"; // Determine unit
             const mostCommonDescription = Object.keys(descriptionCounts).reduce((a, b) => descriptionCounts[a] > descriptionCounts[b] ? a : b);
         
             const iconUrl = `http://openweathermap.org/img/wn/${week[Math.floor(week.length / 2)].weather[0].icon}@2x.png`; // Use the middle day's icon as a representative
@@ -314,9 +324,8 @@ document.addEventListener("DOMContentLoaded", function () {
             weatherDays.appendChild(weatherDay);
         });
     }
-    
-    
-    
+
+    // Function to update the next week widget
     function updateNextWeekWidget(forecastData) {
         const nextWeekPredictions = document.getElementById("next-week-predictions");
         const nextWeekIcon = document.getElementById("next-week-icon");
@@ -325,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let totalWindSpeed = 0;
         const weatherConditions = {};
     
-        const daysData = forecastData.slice(0, 7); // берем прогноз на 7 дней
+        const daysData = forecastData.slice(0, 7); // Take 7 days for the forecast
     
         daysData.forEach(day => {
             totalTemp += day.main.temp;
@@ -352,20 +361,20 @@ document.addEventListener("DOMContentLoaded", function () {
         nextWeekIcon.src = `http://openweathermap.org/img/wn/${mostCommonConditionIcon}.png`;
         nextWeekIcon.alt = mostCommonCondition;
     }
-    
 
+    // Function to update the tomorrow widget
     function updateTomorrowWidget(forecastData) {
         const tomorrowPredictions = document.getElementById("tomorrow-predictions");
         const tomorrowIcon = document.getElementById("tomorrow-icon");
     
-        const tomorrowData = forecastData[1]; // Берем прогноз на завтра (второй элемент массива)
+        const tomorrowData = forecastData[1]; // Take forecast for tomorrow (second element in the array)
     
         const tempMin = currentUnit === "metric" ? Math.round(tomorrowData.main.temp_min) : Math.round((tomorrowData.main.temp_min * 9/5) + 32);
         const tempMax = currentUnit === "metric" ? Math.round(tomorrowData.main.temp_max) : Math.round((tomorrowData.main.temp_max * 9/5) + 32);
         const windSpeed = tomorrowData.wind.speed;
         const condition = tomorrowData.weather[0].main;
         const conditionIcon = tomorrowData.weather[0].icon;
-        const tempUnit = currentUnit === "metric" ? "°C" : "°F"; // Добавляем определение единицы измерения
+        const tempUnit = currentUnit === "metric" ? "°C" : "°F"; // Determine unit
     
         tomorrowPredictions.innerHTML = `
             Tomorrow: ${condition} • +${tempMin}${tempUnit}..+${tempMax}${tempUnit} • wind ${windSpeed} m/s

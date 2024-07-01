@@ -409,6 +409,15 @@ header #navbar .search img {
   gap: 10px;
   padding: 0 10px;
 }
+
+#main-content .weather-widget-container .weather-widget .weather-container {
+  display: flex;
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 10px;
+  margin: 10px 0;
+}
+
 #main-content .weather-widget-container .weather-widget .weather-day {
   flex: 1;
   text-align: center;
